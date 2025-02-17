@@ -1,8 +1,7 @@
 CREATE TABLE IF NOT EXISTS visits (
-    page VARCHAR(255) NOT NULL,
-    visitor_id VARCHAR(10) NOT NULL,
-    timestamp DATETIME NOT NULL,
-    PRIMARY KEY (page, visitor_id)
+    visitor_id VARCHAR(16) NOT NULL,
+    page VARCHAR(1024) NOT NULL,
+    date DATE NOT NULL,
+    count BIGINT NOT NULL DEFAULT 0,
+    PRIMARY KEY (visitor_id, page, date)
 );
-
-CREATE INDEX idx_timestamp ON visits (timestamp);
