@@ -48,7 +48,7 @@ try {
 
     $db = new Database();
     $sql = "INSERT IGNORE INTO visits (visitor_id, page, date) VALUES (?, ?, ?)";
-    $db->execute($sql, [NULL, $page, $date]);
+    $db->execute($sql, [$visitorId, $page, $date]);
 
     http_response_code(200);
     echo json_encode(['status' => 'success', 'message' => 'Success.']);
