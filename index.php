@@ -3,33 +3,36 @@
     require_once 'src/Visits.php';
     require_once 'src/html/Table.php';
 
-    $startDate = $endDate = '';
+    $startDate = $endDate = $errorMessage = '';
 
     // Validate method
     if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
-        http_response_code(405);
-        echo json_encode(['status' => 'error', 'message' => 'Invalid request method.']);
-        exit;
+        $errorMessage = 'Invalid request method';
     }
 
     // Check if parameters are present
     if (isset($_GET['start_date'], $_GET['end_date'])) {
+
         // Sanitize inputs
         $startDate = preg_match('/^\d{4}-\d{2}-\d{2}$/', $_GET['start_date']) ? $_GET['start_date'] : '';
         $endDate = preg_match('/^\d{4}-\d{2}-\d{2}$/', $_GET['end_date']) ? $_GET['end_date'] : '';
 
         // Validate parameters
         if (!$startDate || !$endDate) {
-            http_response_code(400);
-            echo json_encode(['status' => 'error', 'message' => 'Invalid parameter present.']);
-            exit;
+            $errorMessage = 'Invalid parameter format present.';
+        }
+        elseif (strtotime($startDate) > strtotime($endDate)) {
+            $errorMessage = 'Start date cannot be greater than end date.';
         }
     }
 
-    $visitsObj = new Visits();
-    $visits = $visitsObj->getVisits($startDate, $endDate);
+    if (empty($errorMessage)) {
 
-    $table = new Table($visits, ['URL', 'Unique visits']);
+        $visitsObj = new Visits();
+        $visits = $visitsObj->getVisits($startDate, $endDate);
+
+        $table = new Table($visits, ['URL', 'Unique visits']);
+    }
 ?>
 
 <!doctype html>
@@ -57,7 +60,12 @@
 </form>
 
 <?php
-    echo $table->render();
+    if (empty($errorMessage)) {
+        echo $table->render();
+    }
+    else {
+        echo '<div class="error-message">' . htmlspecialchars($errorMessage) . '</div>';
+    }
 ?>
 <script src="./assets/main.js"></script>
 </body>
