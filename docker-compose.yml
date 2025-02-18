@@ -9,7 +9,9 @@ services:
       - ./:/var/www/html
 
   php:
-    image: php:8.4-fpm
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
     container_name: tracker-php
     ports:
       - "9000:9000"
