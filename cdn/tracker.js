@@ -1,7 +1,17 @@
 class YTracker {
 
+    /**
+     * @type {string}
+     */
     endpoint = 'http://localhost/track.php';
+    /**
+     * Y(omali)(T)racker(V)isitor(ID)
+     * @type {string}
+     */
     cookieName = 'ytvid';
+    /**
+     * @type {number}
+     */
     expiresAfterDays = 365;
 
     constructor() {
@@ -10,6 +20,10 @@ class YTracker {
         this.recordVisit();
     }
 
+    /**
+     * Get visitor id from cookie, or set one and return
+     * @returns {string}
+     */
     getOrSetVisitorId() {
 
         let visitorId;
@@ -25,6 +39,11 @@ class YTracker {
         return visitorId;
     }
 
+    /**
+     * Set cookie
+     * @param name
+     * @param value
+     */
     setCookie(name, value) {
         const d = new Date();
         // Set expiration time
@@ -35,6 +54,11 @@ class YTracker {
         document.cookie = `${name}=${value};expires=${expires};path=/;SameSite=Lax`;
     }
 
+    /**
+     * Get cookie
+     * @param name
+     * @returns {string}
+     */
     getCookie(name) {
 
         const nameEquals = `${name}=`;
@@ -46,27 +70,39 @@ class YTracker {
             let element = cookieElements[i].trim();
             // Check for existence of nameEquals string in key-value pair
             if (element.indexOf(nameEquals) === 0) {
-                return element.substring(nameEquals.length, element.length); // Return the value of the cookie
+                return element.substring(nameEquals.length, element.length);
             }
         }
 
         return '';
     }
 
+    /**
+     * Generate random string (visitor_id)
+     * @returns {string}
+     */
     generateVisitorId() {
+
         const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
         let string = '';
         for (let i = 0; i < 10; i++) {
             string += characters.charAt(Math.floor(Math.random() * characters.length));
         }
+
         return string;
     }
 
+    /**
+     * Send request to track endpoint, record a visit
+     */
     recordVisit() {
+
         const data = {
-            visitor_id: this.visitorID
+            visitor_id: this.visitorID,
+            page: window.location.href
         }
-        console.log('sending data: '+ JSON.stringify(data))
+
         fetch(this.endpoint, {
             method: 'POST',
             headers: {
@@ -75,12 +111,8 @@ class YTracker {
             body: JSON.stringify(data)
         })
             .then(response => response.text())
-            .then(result => {
-                console.log(result); // Log the response
-            })
-            .catch(error => {
-                console.error('Error:', error); // Catch and log any errors
-            });
+            .then(result => console.log(result))
+            .catch(error => console.error('Error:', error));
     }
 }
 
