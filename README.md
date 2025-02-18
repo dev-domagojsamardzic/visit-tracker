@@ -36,8 +36,8 @@ The project uses Docker for easy containerization and setup. Docker Compose is u
 First, clone the repository to your local machine:
 
 ```bash
-git clone ....
-cd tracker
+git clone git@github.com:dev-domagojsamardzic/visit-tracker.git
+cd visit-tracker
 ```
 
 Build and run docker container:
