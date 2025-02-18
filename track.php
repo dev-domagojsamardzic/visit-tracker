@@ -26,7 +26,7 @@ if (!$inputData) {
 // Validate all parameters are present
 $data = json_decode($inputData, true);
 
-if (!isset($data['visitor_id']) || !isset($data['page'])) {
+if (!isset($data['visitor_id'], $data['page'])) {
     http_response_code(400);
     echo json_encode(['status' => 'error', 'message' => 'Missing required parameters.']);
     exit;
@@ -42,7 +42,7 @@ if (!$visitorId || strlen($visitorId) !== 10 || !$page) {
     exit;
 }
 
-$date = date('Y-m-d', strtotime('+1 day'));
+$date = date('Y-m-d');
 
 try {
 
