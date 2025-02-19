@@ -111,6 +111,7 @@ class YTracker {
             },
             body: JSON.stringify(data)
         })
+            // console log and console error is for testing purposes
             .then(response => response.text())
             .then(result => console.log(result))
             .catch(error => console.error('Error:', error));
