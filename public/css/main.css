@@ -91,3 +91,7 @@ table, th, td {
     background-color: #f8d7da;
     border: 1px solid #f5c6cb;
 }
+
+.text-center {
+    text-align: center;
+}
