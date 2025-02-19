@@ -9,7 +9,7 @@ use PDOException;
 
 class Database
 {
-
+    // TODO: proper way is to move this to .env
     /**
      * Host: docker service name: 'db'
      * @var string

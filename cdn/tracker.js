@@ -1,5 +1,6 @@
 class YTracker {
 
+    // TODO: You could pass these properties via constructor as options for further modularity
     /**
      * @type {string}
      */
