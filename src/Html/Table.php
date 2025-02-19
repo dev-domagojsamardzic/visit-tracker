@@ -84,6 +84,6 @@ class Table
      */
     private function renderEmptyState(): string
     {
-        return '<tbody><tr><td colspan="'.count($this->headers).'">No data found</td></tr></tbody>';
+        return '<tbody><tr><td class="text-center" colspan="'.count($this->headers).'">No data found</td></tr></tbody>';
     }
 }

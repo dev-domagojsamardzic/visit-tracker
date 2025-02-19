@@ -19,7 +19,7 @@
         $endDate = $_GET['end_date'];
 
         if (!InputValidator::validateDate($startDate) || !InputValidator::validateDate($endDate)) {
-            $errorMessage = 'Invalid date format,';
+            $errorMessage = 'Invalid date format.';
         }
         elseif (!InputValidator::validateDateRange($startDate, $endDate)) {
             $errorMessage = 'Start date cannot be greater than end date.';
@@ -41,7 +41,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Unique visits</title>
-    <link type="text/css" href="./assets/main.css" rel="stylesheet">
+    <link type="text/css" href="css/main.css" rel="stylesheet">
 </head>
 <body>
 
@@ -67,6 +67,6 @@
         echo '<div class="error-message">' . htmlspecialchars($errorMessage) . '</div>';
     }
 ?>
-<script src="./assets/main.js"></script>
+<script src="js/main.js"></script>
 </body>
 </html>
