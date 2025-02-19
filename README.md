@@ -68,6 +68,8 @@ This simple application requires simple database structure. Database contains a 
 You don’t need to create the database manually. The Docker container handles database creation, user setup, and privilege assignment. \
 Additionally, the ```database/migration.sql``` file is responsible for creating the visits table. This file is located in the docker-entrypoint-initdb.d directory, so it is automatically executed when the container is created.
 
+***Since the database contains only a single table, I believe that creating a graphical DB schema is unnecessary, as all the necessary information can be found in the ``migration.sql`` file.***
+
 ### 3. User Interface (PHP, HTML, CSS)
 The user interface is built using PHP. It allows users to:
 - See a table of websites with the number of unique visits.
