@@ -1,67 +1,79 @@
 # Website Traffic Tracker
 
-This project is a simple website traffic tracker that tracks unique visits to a web page. It consists of three main components:
+This project is a simple website traffic tracker that monitors unique visits to a web page. It consists of three main components:
 
-## Project Components
-
-### 1. **JavaScript Tracker**
-The JavaScript tracker is included in the HTML files (`website1.html` and `website2.html`), which are test sites. This script records a visit whenever a user accesses the page. It sends a request to the server, which logs the visit in the database.
-
-### 2. **MySQL Database**
-Basic table structure includes fields for `page`, `visitor_id`, and `date`:
-
-- `page` - URL of the visited page.
-- `visitor_id` - A unique identifier for each visitor.
-- `date` - Date of the visit.
-
-
-
-### 3. **User Interface (PHP)**
-The user interface is built using PHP. It allows users to:
-- See a table of websites with the number of unique visits.
-- Filter visits by a date range.
-- Reset the date filter to show all visits.
-
-### 4. **Docker Setup**
-The project uses Docker for easy containerization and setup. Docker Compose is used to run the containers for the web server (Nginx with PHP) and MySQL database.
+- Javascript tracker that clients will add to their websites
+- Database storing the visits data
+- Simple user interface that displays the number of unique visits per page, for a given time period
 
 ## Requirements
+
+For this project, you will need to install:
+
 - Docker
 - Docker Compose
 
-## How to Set Up and Run the Project
+## How to set up and run the project
 
-### 1. Clone the Repository
+### 1. Clone the repository
 
-First, clone the repository to your local machine:
+First, navigate to the directory where you want to clone this repository. Use the following commands to clone the repository and navigate into it:
 
 ```bash
 git clone git@github.com:dev-domagojsamardzic/visit-tracker.git
 cd visit-tracker
 ```
+### 2. Build and run docker containers
 
-Build and run docker container:
+Run the following command to build and start the Docker containers:
 ```bash
 docker compose up -d --build
 ```
-
-After that, run this command to generate autoload file:
+After the containers are running, generate the autoload file using this command:
 ```bash
 docker exec -it tracker-php composer install
 ```
-or, since we are using no dependency packages, you can also go with
+Alternatively, since there are no dependency packages, you can use:
 ```bash
 docker exec -it tracker-php composer dump-autoload
 ```
 
-Once the containers are running, you can access the user interface by navigating to:
+Once the containers are up, you can access the user interface by navigating to:
 [http://localhost](http://localhost).
 
-There are two test websites included in this project:
+
+## Project Components
+
+### 1. JS Tracker script
+
+Tracker script is located in the ```cmd``` directory. \
+The script is designed to be imported via a CDN into the website you wish to track. This project includes an example implementation. Two example websites, ```website1.html``` and ```website2.html```, are located in the ```public``` directory,
+and the script is included in the ```<head>``` tag using the following syntax: \
+```<script src="http://localhost/cdn/tracker.js"></script>```
+
+When you visit one of these links:
 - [http://localhost/website1.html](http://localhost/website1.html)
 - [http://localhost/website2.html](http://localhost/website2.html)
 
-When you visit these pages, the tracker will register the visit and store it in the database. Each unique visit is recorded.
+The tracker sends an AJAX request with visitor_id and page_url as parameters to the track.php script. This script processes the request, validates the input parameters, and records a unique visit if necessary.
 
+### 2. MySQL Database
 
+This simple application requires simple database structure. Database contains a single table, named **visits**, which has following columns:
 
+- **page VARCHAR(512)** - URL of the visited page.
+- **visitor_id CHAR(10)** - A unique identifier for each visitor. Random 10 char string assigned.
+- **date DATE** - date of the recorded visit in format (Y-m-d)
+
+You don’t need to create the database manually. The Docker container handles database creation, user setup, and privilege assignment. \
+Additionally, the ```database/migration.sql``` file is responsible for creating the visits table. This file is located in the docker-entrypoint-initdb.d directory, so it is automatically executed when the container is created.
+
+### 3. User Interface (PHP, HTML, CSS)
+The user interface is built using PHP. It allows users to:
+- See a table of websites with the number of unique visits.
+- Filter visits by a date range.
+- Reset the date filter to show all visits.
+
+You can access the user interface by visiting the project’s homepage at [http://localhost](http://localhost). \
+Initially, all records are displayed regardless of the date range. You can filter the records by selecting a specific date range or reset the filter to return to the initial state.
+If invalid inputs are provided, appropriate error messages will be displayed. You can always return to the initial state by clicking the reset button.
