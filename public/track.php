@@ -4,7 +4,7 @@
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
 
-require __DIR__ . '/vendor/autoload.php';
+require __DIR__.'/../vendor/autoload.php';
 
 use App\DB\Database;
 use App\Validators\InputValidator;
@@ -43,7 +43,6 @@ if (!InputValidator::validateVisitorId($visitorId) || !InputValidator::validateU
 $date = date('Y-m-d');
 
 try {
-
     $db = new Database();
     $sql = "INSERT IGNORE INTO visits (visitor_id, page, date) VALUES (?, ?, ?)";
     $db->execute($sql, [$visitorId, $page, $date]);
