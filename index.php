@@ -3,6 +3,7 @@
 
     use App\Models\Visits;
     use App\Html\Table;
+    use App\Validators\InputValidator;
 
     $startDate = $endDate = $errorMessage = '';
 
@@ -14,15 +15,13 @@
     // Check if parameters are present
     if (isset($_GET['start_date'], $_GET['end_date'])) {
 
-        // Sanitize inputs
-        $startDate = preg_match('/^\d{4}-\d{2}-\d{2}$/', $_GET['start_date']) ? $_GET['start_date'] : '';
-        $endDate = preg_match('/^\d{4}-\d{2}-\d{2}$/', $_GET['end_date']) ? $_GET['end_date'] : '';
+        $startDate = $_GET['start_date'];
+        $endDate = $_GET['end_date'];
 
-        // Validate parameters
-        if (!$startDate || !$endDate) {
-            $errorMessage = 'Invalid parameter format present.';
+        if (!InputValidator::validateDate($startDate) || !InputValidator::validateDate($endDate)) {
+            $errorMessage = 'Invalid date format,';
         }
-        elseif (strtotime($startDate) > strtotime($endDate)) {
+        elseif (!InputValidator::validateDateRange($startDate, $endDate)) {
             $errorMessage = 'Start date cannot be greater than end date.';
         }
     }
@@ -32,7 +31,7 @@
         $visitsObj = new Visits();
         $visits = $visitsObj->getVisits($startDate, $endDate);
 
-        $table = new Table($visits, ['URL', 'Unique visits']);
+        $table = new Table($visits, ['Page', 'Unique visits']);
     }
 ?>
 

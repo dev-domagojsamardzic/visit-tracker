@@ -7,6 +7,7 @@ header('Content-Type: application/json');
 require __DIR__ . '/vendor/autoload.php';
 
 use App\DB\Database;
+use App\Validators\InputValidator;
 
 // Validate method
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -29,17 +30,11 @@ if (!$inputData) {
 // Validate all parameters are present
 $data = json_decode($inputData, true);
 
-if (!isset($data['visitor_id'], $data['page'])) {
-    http_response_code(400);
-    echo json_encode(['status' => 'error', 'message' => 'Missing required parameters.']);
-    exit;
-}
+// Validate inputs
+$visitorId = $data['visitor_id'] ?? '';
+$page = $data['page'] ?? '';
 
-// Sanitize inputs
-$visitorId = filter_var($data['visitor_id'], FILTER_UNSAFE_RAW);
-$page = filter_var($data['page'], FILTER_SANITIZE_URL);
-
-if (!$visitorId || strlen($visitorId) !== 10 || !$page) {
+if (!InputValidator::validateVisitorId($visitorId) || !InputValidator::validateUrl($page)) {
     http_response_code(400);
     echo json_encode(['status' => 'error', 'message' => 'Invalid parameter present.']);
     exit;
@@ -56,7 +51,7 @@ try {
     http_response_code(200);
     echo json_encode(['status' => 'success', 'message' => 'Success.']);
 
-} catch(Exception $e) {
+} catch (Exception $e) {
     http_response_code(500);
     echo json_encode(['status' => 'error', 'message' => 'Database error: ' . $e->getMessage()]);
 }
