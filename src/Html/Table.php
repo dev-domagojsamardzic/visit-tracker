@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Html;
+
 class Table
 {
     /**

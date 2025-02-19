@@ -1,5 +1,12 @@
 <?php
 
+namespace App\DB;
+
+use PDO;
+use PDOStatement;
+use Exception;
+use PDOException;
+
 class Database
 {
 
@@ -32,7 +39,7 @@ class Database
     {
         try {
             $dsn = sprintf('mysql:host=%s;dbname=%s', $this->host, $this->database);
-            $connection = new \PDO($dsn, $this->username, $this->password);
+            $connection = new PDO($dsn, $this->username, $this->password);
             $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $this->connection = $connection;
         } catch (PDOException $e) {

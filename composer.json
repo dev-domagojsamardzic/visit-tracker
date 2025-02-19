@@ -1,0 +1,16 @@
+{
+    "name": "dev-domagojsamardzic/visit-tracker",
+    "version": "1.0.0",
+    "authors": [
+        {
+            "name": "Domagoj Samardžić",
+            "email": "dev.domagojsamardzic@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    }
+}

@@ -1,6 +1,9 @@
 <?php
 
-require 'Database.php';
+namespace App\Models;
+
+use App\DB\Database;
+use PDO;
 
 class Visits {
 

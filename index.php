@@ -1,7 +1,8 @@
 <?php
+    require __DIR__ . '/vendor/autoload.php';
 
-    require_once 'src/Visits.php';
-    require_once 'src/html/Table.php';
+    use App\Models\Visits;
+    use App\Html\Table;
 
     $startDate = $endDate = $errorMessage = '';
 

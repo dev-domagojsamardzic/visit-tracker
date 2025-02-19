@@ -1,9 +1,12 @@
 <?php
+
 // Allow resources hosted on other origins to access track.php
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
 
-require './src/Database.php';
+require __DIR__ . '/vendor/autoload.php';
+
+use App\DB\Database;
 
 // Validate method
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {

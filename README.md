@@ -45,6 +45,15 @@ Build and run docker container:
 docker compose up -d --build
 ```
 
+After that, run this command to generate autoload file:
+```bash
+docker exec -it tracker-php composer install
+```
+or, since we are using no dependency packages, you can also go with
+```bash
+docker exec -it tracker-php composer dump-autoload
+```
+
 Once the containers are running, you can access the user interface by navigating to:
 [http://localhost](http://localhost).
 
